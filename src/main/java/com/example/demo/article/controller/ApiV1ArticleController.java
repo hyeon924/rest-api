@@ -49,13 +49,17 @@ public class ApiV1ArticleController {
   }
 
   @PatchMapping("/{id}")
-  public String modify() {
-    return "수정";
+  public String modify(@PathVariable("id") Long id, @RequestParam("subject") String subject, @RequestParam("content") String content) {
+    System.out.println(id);
+    System.out.println(subject);
+    System.out.println(content);
+    return "수정완료";
   }
 
   @DeleteMapping("/{id}")
-  public String delete() {
-    return "삭제";
+  public String delete(@PathVariable("id") Long id) {
+    System.out.println(id);
+    return "삭제완료";
   }
 
 }
