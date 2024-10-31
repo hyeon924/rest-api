@@ -4,7 +4,10 @@ import com.example.demo.RsData.RsData;
 import com.example.demo.article.dto.ArticleDTO;
 import com.example.demo.article.entity.Article;
 import com.example.demo.article.service.ArticleService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -56,10 +59,18 @@ public class ApiV1ArticleController {
     return RsData.of("200", " 단건 조회 성공", new ArticleResponse(articleDTO));
   }
 
+    @Data
+  public static class ArticleRequest {
+    @NotBlank
+    private String subject;
+    @NotBlank
+    private String content;
+  }
+
   @PostMapping("")
-  public String create(@RequestParam("subject") String subject, @RequestParam("content") String content) {
-    System.out.println(subject);
-    System.out.println(content);
+  public String create(@Valid @RequestBody ArticleRequest articleRequest) {
+    System.out.println(articleRequest.getSubject());
+    System.out.println(articleRequest.getContent());
     return "등록완료";
   }
 
