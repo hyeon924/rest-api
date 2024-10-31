@@ -1,8 +1,11 @@
 package com.example.demo.article.controller;
 
+import com.example.demo.RsData.RsData;
 import com.example.demo.article.dto.ArticleDTO;
 import com.example.demo.article.entity.Article;
 import com.example.demo.article.service.ArticleService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +18,14 @@ import java.util.List;
 public class ApiV1ArticleController {
   private final ArticleService articleService;
 
+  @AllArgsConstructor
+  @Getter
+  public static class ArticlesResponse {
+    private final List<ArticleDTO> articleList;
+  }
+
   @GetMapping("")
-  public List<ArticleDTO> list() {
+  public RsData<ArticlesResponse> list() {
 
     List<ArticleDTO> articleList = new ArrayList<>();
 
@@ -29,16 +38,22 @@ public class ApiV1ArticleController {
     Article article3 = new Article("title01", "content01");
     articleList.add(new ArticleDTO(article3));
 
-    return articleList;
+    return RsData.of("200", "게시글 다건 조회 성공", new ArticlesResponse(articleList));
+  }
+
+  @Getter
+  @AllArgsConstructor
+  public static class ArticleResponse {
+    private final ArticleDTO article;
   }
 
   @GetMapping("/{id}")
-  public ArticleDTO getArticle(@PathVariable("id") Long id) {
+  public RsData<ArticleResponse> getArticle(@PathVariable("id") Long id) {
     Article article = new Article("title", "content");
 
     ArticleDTO articleDTO = new ArticleDTO(article);
 
-    return articleDTO;
+    return RsData.of("200", " 단건 조회 성공", new ArticleResponse(articleDTO));
   }
 
   @PostMapping("")
