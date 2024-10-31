@@ -33,13 +33,12 @@ public class ApiV1ArticleController {
   }
 
   @GetMapping("/{id}")
-  public List<ArticleDTO> getArticle() {
-       List<ArticleDTO> articleList = new ArrayList<>();
+  public ArticleDTO getArticle(@PathVariable("id") Long id) {
+    Article article = new Article("title", "content");
 
-    Article article1 = new Article("title01", "content01");
-    articleList.add(new ArticleDTO(article1));
+    ArticleDTO articleDTO = new ArticleDTO(article);
 
-    return articleList;
+    return articleDTO;
   }
 
   @PostMapping("")
